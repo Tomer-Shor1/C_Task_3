@@ -16,6 +16,26 @@ typedef struct _StrList {
 } StrList;
 
 
+
+void tokenize_and_add(StrList *list, char *story) {
+    char * copy = (char*)malloc(sizeof(char)*500);
+    while (story) 
+    {
+        strcpy_custom(copy, story);
+        StrList_insertLast(list, copy);
+        story++;
+    }   
+}
+
+
+void strcpy_custom(char *dest, const char *src) {
+    while (strcmp(" ", src)) {
+        *dest++ = *src++;
+    }
+    *dest = '\0'; // Null-terminate the destination string
+}
+
+
 /*
  * Allocates a new empty StrList.
  * It's the user responsibility to free it with StrList_free.
@@ -28,6 +48,8 @@ StrList* StrList_alloc()
         return NULL;
     }
     else {
+        p->_head = NULL;
+        p->_size = 0;
         return p;
     }
 }
@@ -151,13 +173,9 @@ char* StrList_firstData(const StrList* StrList)
 void StrList_print(const StrList* StrList)
 {
     node * curr = StrList->_head;
-    while (curr->next != NULL)  
+    while (curr != NULL)  
     {
-        if (curr == NULL) {
-            fprintf(stderr, "Index out of bounds\n");
-            return;
-        }
-        puts(curr->data);
+        printf("%s ", curr->data);
         curr = curr->next;
     }
 }
@@ -317,6 +335,23 @@ StrList* StrList_clone(const StrList* Strlist)
         curr = curr->next;
     }
     return result;
+}
+
+
+void StrList_reverse(StrList* list) {
+    node *prev = NULL, *current = list->_head, *next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    list->_head = prev;
+}
+
+
+void StrList_sort( StrList* StrList){
+    
 }
 
 
