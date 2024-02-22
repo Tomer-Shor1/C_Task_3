@@ -1,26 +1,9 @@
 #include "StrList.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 
 
 int main(){
-//     StrList * list = StrList_alloc();
-// char * a = "hello world and hi eli";
-// char * b = "world";
-// char * c = "and";
-// char * d = "hello";
-// char * e = "gil";
-// StrList_insertLast(list, a);
-// StrList_insertLast(list, b);
-// StrList_insertLast(list, c);
-// StrList_insertLast(list, d);
-// StrList_insertLast(list, e);
-// char story[122];
-// scanf(" %[^\n]s", story);
-// buildList(list,  5, story);
-// StrList_print(list);
 
 int choice;
 StrList * list;
@@ -29,8 +12,6 @@ int _index;
 char a [100];
 char str[100];
 int __index;
-
-
 
 
 do{
