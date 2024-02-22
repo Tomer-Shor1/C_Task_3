@@ -17,14 +17,33 @@ typedef struct _StrList {
 
 
 
-void tokenize_and_add(StrList *list, char *story) {
-    char * copy = (char*)malloc(sizeof(char)*500);
-    while (story) 
+void buildList(StrList* StrList, int length, char* str){
+    int count = 0;
+    int j = 0;
+    
+
+    for (int i = 0; i < length; i++)
     {
-        strcpy_custom(copy, story);
-        StrList_insertLast(list, copy);
-        story++;
-    }   
+        char* substring;
+        while (str[j] != ' ' && j < strlen(str))
+        {
+            count++;
+            j++;
+        }
+        
+        substring = (char*)malloc(count+1);
+        strncpy(substring, str, count);
+        substring[j] = '\0';
+        
+        StrList_insertLast(StrList, substring);
+        
+        
+        j++;
+        count = 0;
+        str += j;
+        j = 0;
+        free(substring);
+    }
 }
 
 
@@ -78,7 +97,7 @@ size_t StrList_size(const StrList* StrList)
 {
     int size = 0;
     node *ptr = StrList->_head;
-    while (ptr->next != NULL) {
+    while (ptr != NULL) {
         size++;
         ptr = ptr->next;        //   43->56->88->NULL
     }
@@ -178,6 +197,8 @@ void StrList_print(const StrList* StrList)
         printf("%s ", curr->data);
         curr = curr->next;
     }
+    free(curr);
+    printf("\n");
 }
 
 
@@ -213,6 +234,7 @@ int StrList_printLen(const StrList* Strlist)
         ans += strlen(curr->data);
         curr = curr->next;
     }
+    free(curr);
     return ans;
 }
 
@@ -350,8 +372,42 @@ void StrList_reverse(StrList* list) {
 }
 
 
-void StrList_sort( StrList* StrList){
-    
+void StrList_sort(StrList* list) {
+    if (list->_head == NULL || list->_head->next == NULL) {
+        // Empty or single-element list, no need to sort
+        return;
+    }
+
+    int swapped;
+    node *ptr1;
+    node *lptr = NULL;
+
+    do {
+        swapped = 0;
+        ptr1 = list->_head;
+
+        while (ptr1->next != lptr) {
+            if (strcmp(ptr1->data, ptr1->next->data) > 0) {
+                char* temp = ptr1->data;
+                ptr1->data = ptr1->next->data;
+                ptr1->next->data = temp;
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+int StrList_isSorted(StrList* list) {
+    node* current = list->_head;
+    while (current != NULL && current->next != NULL) {
+        if (strcmp(current->data, current->next->data) > 0) {
+            return 0; // Not sorted
+        }
+        current = current->next;
+    }
+    return 1; // Sorted
 }
 
 
